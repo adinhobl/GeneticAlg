@@ -76,7 +76,7 @@ def initialPopulation(popSize: int, numCities: int) -> List:
 # print(cityList)
 
 ## Test for initialPopulation
-# abc = initialPopulation(10, 20)
+# abc = initialPopulation(10, 60)
 # print(abc,"\n")
 
 def rankRoutes(population: List[List['City']]) -> List[Tuple[int, float]]:
@@ -89,3 +89,23 @@ def rankRoutes(population: List[List['City']]) -> List[Tuple[int, float]]:
 ## Test for rankRoutes - must have test for initialPopulation active
 # cba = rankRoutes(abc)
 # print(cba)
+
+def selection(popRanked: List[Tuple[int, float]], numElites: int = 0) -> List[int]:
+    # select which individuals are saved as parents of the next generation
+    # Fitness propporionate selection implemented with pd.sample
+    # Eliteness implemented by picking top individuals
+
+    df = pd.DataFrame(np.array(popRanked), columns=["Index","Fitness"])
+    df["weights"] = 100 * df.Fitness / df.Fitness.sum()
+    selection_results = df.sample(n=len(popRanked)-numElites,
+                                 replace=True,
+                                 weights=df.weights
+                                 ).values[:,0]
+    elite_results = df.iloc[0:numElites,0].values
+    # print(df) # to see the dataframe for checking
+    selection_results = list(map(int,np.concatenate((selection_results, elite_results)).tolist()))
+    return selection_results
+
+## Test for selection - must have test for rankRoutes in place
+# j = selection(cba,2)
+# print(j)

@@ -1,5 +1,5 @@
 import numpy as np, random, pandas as pd
-from typing import List, Dict
+from typing import List, Dict, Tuple
 
 class City:
     def __init__(self, x: float, y: float) -> None:
@@ -14,10 +14,11 @@ class City:
         distance = np.sqrt(xDist ** 2 + yDist ** 2)
         return distance
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         # Defines the printable representation of the City
         return "(" + str(self.x) + "," + str(self.y) + ")"
 
+## Test for City class
 # Houston = City(1, 2.5)
 # Boston = City(20.2, 12)
 # print(Houston)
@@ -33,12 +34,13 @@ class Route:
         self.numStops: int = len(self.route)
 
     def routeDistance(self) -> float:
+        # calculates the total distance of a route
         if self.distance == 0: # prevents from recalculating fitness for a route
             pathDistance = 0.0 # temporary calculation variable
             for i in range(self.numStops):
                 fromCity = self.route[i]
                 # if you are not at the last city, the next city is the next
-                # in the route. Else, it is the first city you must go back to.
+                # in the route. Else, you must go back to the first city.
                 if i + 1 < self.numStops:
                     toCity = self.route[i + 1]
                 else:
@@ -48,12 +50,13 @@ class Route:
         return self.distance
 
     def routeFitness(self) -> float:
+        #calculates the fitness of a route from its distance
         if self.fitness == 0:
             self.fitness = 1 / self.routeDistance()
         return self.fitness
 
 # for generating random lists of cities
-def initialPopulation(popSize: int, numCities: int):
+def initialPopulation(popSize: int, numCities: int) -> List:
     # creates a list of random cities with k entries
     cityList = []
     population = []
@@ -63,6 +66,7 @@ def initialPopulation(popSize: int, numCities: int):
         population.append(random.sample(cityList, len(cityList)))
     return population
 
+## Generic list of cities
 # cityList = []
 # for i in range(8):
 #     cityList.append(City(x=round(random.random()*200), y=round(random.random()*200)))
@@ -71,11 +75,17 @@ def initialPopulation(popSize: int, numCities: int):
 # print(R1.distance)
 # print(cityList)
 
-# abc = initialPopulation(5, 2)
-# print(abc)
+## Test for initialPopulation
+# abc = initialPopulation(10, 20)
+# print(abc,"\n")
 
-def rankRoutes(population: List[List[City]]):
+def rankRoutes(population: List[List['City']]) -> List[Tuple[int, float]]:
+    # ranks the routes in a list of routes according to fitness
     fitnessResults: Dict = {}
     for i in range(len(population)):
-        fitnessResults[i] = Route(population[i]).routeFitness() # dict of each
-        #### unfinished ####
+        fitnessResults[i] = Route(population[i]).routeFitness() # makes a list of cities into a route, then finds fitness
+    return sorted(fitnessResults.items(), key=lambda x: x[1], reverse=True) # can also use itemgetter(2)
+
+## Test for rankRoutes - must have test for initialPopulation active
+# cba = rankRoutes(abc)
+# print(cba)

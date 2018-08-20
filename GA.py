@@ -56,7 +56,7 @@ class Route:
         return self.fitness
 
 # for generating random lists of cities
-def initialPopulation(popSize: int, numCities: int) -> List:
+def initialPopulation(popSize: int, numCities: int) -> List[List['City']]:
     # creates a list of random cities with k entries
     cityList = []
     population = []
@@ -75,9 +75,9 @@ def initialPopulation(popSize: int, numCities: int) -> List:
 # print(R1.distance)
 # print(cityList)
 
-## Test for initialPopulation
-# abc = initialPopulation(10, 60)
-# print(abc,"\n")
+# Test for initialPopulation
+abc = initialPopulation(5, 20)
+print(abc,"\n")
 
 def rankRoutes(population: List[List['City']]) -> List[Tuple[int, float]]:
     # ranks the routes in a list of routes according to fitness
@@ -86,9 +86,10 @@ def rankRoutes(population: List[List['City']]) -> List[Tuple[int, float]]:
         fitnessResults[i] = Route(population[i]).routeFitness() # makes a list of cities into a route, then finds fitness
     return sorted(fitnessResults.items(), key=lambda x: x[1], reverse=True) # can also use itemgetter(2)
 
-## Test for rankRoutes - must have test for initialPopulation active
-# cba = rankRoutes(abc)
-# print(cba)
+# Test for rankRoutes - must have test for initialPopulation active
+cba = rankRoutes(abc)
+print(cba)
+print("\n")
 
 def selection(popRanked: List[Tuple[int, float]], numElites: int = 0) -> List[int]:
     # select which individuals are saved as parents of the next generation
@@ -106,6 +107,19 @@ def selection(popRanked: List[Tuple[int, float]], numElites: int = 0) -> List[in
     selection_results = list(map(int,np.concatenate((selection_results, elite_results)).tolist()))
     return selection_results
 
-## Test for selection - must have test for rankRoutes in place
-# j = selection(cba,2)
-# print(j)
+# Test for selection - must have test for rankRoutes in active
+j = selection(cba,2)
+print(j)
+print("\n")
+
+def matingPool(population: List[List['City']], selection_results: List[int]) -> List[List['City']]:
+    mating_pool: List = []
+    for i in range(len(selection_results)):
+        index = selection_results[i]
+        mating_pool.append(population[index])
+    return mating_pool
+
+# Test for matingPool - must have test for selection active
+pool = matingPool(abc, j)
+print(pool)
+print("\n")

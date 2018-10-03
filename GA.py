@@ -1,5 +1,8 @@
-import numpy as np, random, pandas as pd
+import numpy as np
+import random
+import pandas as pd
 from typing import List, Dict, Tuple
+
 
 class City:
     def __init__(self, x: float, y: float) -> None:
@@ -23,14 +26,14 @@ class Route:
     def __init__(self, route: List['City']) -> None:
         # init defines a route between cities
         self.route = route
-        self.distance: float = 0
+        self.distance: float = 0.0
         self.fitness: float = 0.0
         self.numStops: int = len(self.route)
 
     def routeDistance(self) -> float:
         # calculates the total distance of a route
-        if self.distance == 0: # prevents from recalculating fitness for a route
-            pathDistance = 0.0 # temporary calculation variable
+        if self.distance == 0:  # prevents from recalculating fitness for a route
+            pathDistance = 0.0  # temporary calculation variable
             for i in range(self.numStops):
                 fromCity = self.route[i]
                 # if you are not at the last city, the next city is the next
@@ -44,7 +47,7 @@ class Route:
         return self.distance
 
     def routeFitness(self) -> float:
-        #calculates the fitness of a route from its distance
+        # calculates the fitness of a route from its distance
         if self.fitness == 0:
             self.fitness = 1 / self.routeDistance()
         return self.fitness
@@ -56,7 +59,8 @@ def initialPopulation(popSize: int, numCities: int) -> List[List['City']]:
     cityList = []
     population = []
     for i in range(numCities):
-        cityList.append(City(x=round(random.random()*200), y=round(random.random()*200)))
+        cityList.append(City(x=round(random.random()*200),
+                             y=round(random.random()*200)))
     for i in range(popSize):
         population.append(random.sample(cityList, len(cityList)))
     return population
@@ -66,8 +70,10 @@ def rankRoutes(population: List[List['City']]) -> List[Tuple[int, float]]:
     # ranks the routes in a list of routes according to fitness
     fitnessResults: Dict = {}
     for i in range(len(population)):
-        fitnessResults[i] = Route(population[i]).routeFitness() # makes a list of cities into a route, then finds fitness
-    return sorted(fitnessResults.items(), key=lambda x: x[1], reverse=True) # can also use itemgetter(2)
+        # makes a list of cities into a route, then finds fitness
+        fitnessResults[i] = Route(population[i]).routeFitness()
+    # can also use itemgetter(2)
+    return sorted(fitnessResults.items(), key=lambda x: x[1], reverse=True)
 
 
 def selection(popRanked: List[Tuple[int, float]], numElites: int = 0) -> List[int]:
@@ -75,21 +81,52 @@ def selection(popRanked: List[Tuple[int, float]], numElites: int = 0) -> List[in
     # Fitness propporionate selection implemented with pd.sample
     # Eliteness implemented by picking top individuals
 
-    df = pd.DataFrame(np.array(popRanked), columns=["Index","Fitness"])
+    df = pd.DataFrame(np.array(popRanked), columns=["Index", "Fitness"])
     df["weights"] = 100 * df.Fitness / df.Fitness.sum()
     selection_results = df.sample(n=len(popRanked)-numElites,
-                                 replace=True,
-                                 weights=df.weights
-                                 ).values[:,0]
-    elite_results = df.iloc[0:numElites,0].values
+                                  replace=True,
+                                  weights=df.weights
+                                  ).values[:, 0]
+    elite_results = df.iloc[0:numElites, 0].values
     # print(df) # to see the dataframe for checking
-    selection_results = list(map(int,np.concatenate((selection_results, elite_results)).tolist()))
+    selection_results = list(map(int, np.concatenate(
+        (selection_results, elite_results)).tolist()))
     return selection_results
 
 
 def matingPool(population: List[List['City']], selection_results: List[int]) -> List[List['City']]:
+    # picks the mating individuals out of the population based on their selection_results
     mating_pool: List = []
     for i in range(len(selection_results)):
         index = selection_results[i]
         mating_pool.append(population[index])
     return mating_pool
+
+
+def breed(parent1: List['City'], parent2: List['City']) -> List['City']:
+    # uses ordered crossover to breed 2 parents to make a new individual
+    print("Parent1: ", parent1, "\n")
+    print("Parent2: ", parent2, "\n")
+    child: List = [None] * (len(parent1))
+    print("Child initialization: ", child, "\n")
+
+    geneFromParent1 = (random.randint(0, len(child) - 1),
+                       random.randint(0, len(child) - 1))
+    geneFromParent1_start = min(geneFromParent1)
+    geneFromParent1_end = max(geneFromParent1)
+    print(geneFromParent1, geneFromParent1_start, geneFromParent1_end, "\n")
+
+    for gene in range(geneFromParent1_start, geneFromParent1_end + 1):
+        child[gene] = parent1[gene]
+
+    print("Child after p1: ", child, "\n")
+
+    for i in range(0, len(child)):
+        for j in parent2:
+            if j not in child:
+                if child[i] == None:
+                    child[i] = j
+
+    print("Child after p2: ", child, "\n")
+
+    return child

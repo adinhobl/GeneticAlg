@@ -1,7 +1,7 @@
 from GA import *
 
 
-## Test for City class
+# Test for City class
 
 # Houston = City(1, 2.5)
 # Boston = City(20.2, 12)
@@ -9,7 +9,7 @@ from GA import *
 # print(type(Houston))
 # print(Houston.distance(Boston))
 
-## Generic list of cities
+# Generic list of cities
 
 # cityList = []
 # for i in range(8):
@@ -19,12 +19,12 @@ from GA import *
 # print(R1.distance)
 # print(cityList)
 
-## Test for initialPopulation
+# Test for initialPopulation
 
 # abc = initialPopulation(5, 20)
 # print(abc,"\n")
 
-## Test for rankRoutes
+# Test for rankRoutes
 
 # abc = initialPopulation(5, 20)
 # print(abc,"\n")
@@ -32,7 +32,7 @@ from GA import *
 # print(cba)
 # print("\n")
 
-## Test for selection
+# Test for selection
 
 # abc = initialPopulation(5, 20)
 # print(abc,"\n")
@@ -42,14 +42,27 @@ from GA import *
 # print(j)
 # print("\n")
 
-## Test for matingPool - must have test for selection active
+# Test for matingPool
 
-# abc = initialPopulation(5, 20)
-# print(abc,"\n")
+# abc = initialPopulation(6, 20)
+# print(abc, "\n")
 # cba = rankRoutes(abc)
 # print(cba)
-# j = selection(cba,2)
+# j = selection(cba, 2)
 # print(j)
 # pool = matingPool(abc, j)
 # print(pool)
 # print("\n")
+
+# Test for breed
+
+abc = initialPopulation(6, 4)
+#print(abc, "\n")
+cba = rankRoutes(abc)
+# print(cba)
+j = selection(cba, 2)
+# print(j)
+pool = matingPool(abc, j)
+# print(pool)
+breeded = breed(pool[0], pool[1])
+print(breeded, '\n')

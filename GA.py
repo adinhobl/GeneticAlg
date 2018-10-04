@@ -105,21 +105,21 @@ def matingPool(population: List[List['City']], selection_results: List[int]) -> 
 
 def breed(parent1: List['City'], parent2: List['City']) -> List['City']:
     # uses ordered crossover to breed 2 parents to make a new individual
-    print("Parent1: ", parent1, "\n")
-    print("Parent2: ", parent2, "\n")
+    # print("Parent1: ", parent1, "\n")
+    # print("Parent2: ", parent2, "\n")
     child: List = [None] * (len(parent1))
-    print("Child initialization: ", child, "\n")
+    # print("Child initialization: ", child, "\n")
 
     geneFromParent1 = (random.randint(0, len(child) - 1),
                        random.randint(0, len(child) - 1))
     geneFromParent1_start = min(geneFromParent1)
     geneFromParent1_end = max(geneFromParent1)
-    print(geneFromParent1, geneFromParent1_start, geneFromParent1_end, "\n")
+    # print(geneFromParent1, geneFromParent1_start, geneFromParent1_end, "\n")
 
     for gene in range(geneFromParent1_start, geneFromParent1_end + 1):
         child[gene] = parent1[gene]
 
-    print("Child after p1: ", child, "\n")
+    # print("Child after p1: ", child, "\n")
 
     for i in range(0, len(child)):
         for j in parent2:
@@ -127,6 +127,26 @@ def breed(parent1: List['City'], parent2: List['City']) -> List['City']:
                 if child[i] == None:
                     child[i] = j
 
-    print("Child after p2: ", child, "\n")
-
+    # print("Child after p2: ", child, "\n")
     return child
+
+
+def breedPopulation(mating_pool: List[List['City']], numElites: int=0):
+    children: List = []  # final list of children
+    numNonElite = len(mating_pool) - numElites
+    pool = random.sample(mating_pool, len(mating_pool)
+                         )  # shuffles the pool around
+
+    # Carry elites over to next breeding population
+    for i in range(1, numElites+1):
+        children.append(mating_pool[-i])
+
+    # breed population - numElites number of individuals mate with the elites.
+    for i in range(0, numNonElite):
+        child = breed(pool[i], pool[len(mating_pool)-i-1])
+        children.append(child)
+
+    # for i in mating_pool:
+    #     print(i)
+    # print()
+    return children

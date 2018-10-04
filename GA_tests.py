@@ -38,7 +38,8 @@ from GA import *
 # print(abc,"\n")
 # cba = rankRoutes(abc)
 # print(cba)
-# j = selection(cba,2)
+# numElites = 2
+# j = selection(cba,numElites)
 # print(j)
 # print("\n")
 
@@ -48,7 +49,8 @@ from GA import *
 # print(abc, "\n")
 # cba = rankRoutes(abc)
 # print(cba)
-# j = selection(cba, 2)
+# numElites = 2
+# j = selection(cba,numElites)
 # print(j)
 # pool = matingPool(abc, j)
 # print(pool)
@@ -56,13 +58,30 @@ from GA import *
 
 # Test for breed
 
-abc = initialPopulation(6, 4)
+# abc = initialPopulation(6, 10)
+# #print(abc, "\n")
+# cba = rankRoutes(abc)
+# # print(cba)
+# numElites = 2
+# j = selection(cba,numElites)
+# # print(j)
+# pool = matingPool(abc, j)
+# # print(pool)
+# breeded = breed(pool[0], pool[1])
+# print(breeded, '\n')
+
+# Test for breedPopulation
+
+abc = initialPopulation(6, 10)
 #print(abc, "\n")
 cba = rankRoutes(abc)
 # print(cba)
-j = selection(cba, 2)
+numElites = 2
+j = selection(cba, numElites)
 # print(j)
 pool = matingPool(abc, j)
 # print(pool)
-breeded = breed(pool[0], pool[1])
-print(breeded, '\n')
+next_gen = breedPopulation(pool, numElites)
+for individual in next_gen:
+    print(individual, ' ')
+# note: something feels a little inbred

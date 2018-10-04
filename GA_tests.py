@@ -72,16 +72,24 @@ from GA import *
 
 # Test for breedPopulation
 
-abc = initialPopulation(6, 10)
-#print(abc, "\n")
-cba = rankRoutes(abc)
-# print(cba)
-numElites = 2
-j = selection(cba, numElites)
-# print(j)
-pool = matingPool(abc, j)
-# print(pool)
-next_gen = breedPopulation(pool, numElites)
-for individual in next_gen:
-    print(individual, ' ')
-# note: something feels a little inbred
+# abc = initialPopulation(6, 10)
+# #print(abc, "\n")
+# cba = rankRoutes(abc)
+# # print(cba)
+# numElites = 2
+# j = selection(cba, numElites)
+# # print(j)
+# pool = matingPool(abc, j)
+# # print(pool)
+# next_gen = breedPopulation(pool, numElites)
+# for individual in next_gen:
+#     print(individual, ' ')
+# # note: something feels a little inbred
+
+# Test for swapMutation
+
+# abc = initialPopulation(1, 2)[0]
+# print(abc, "\n")
+# for i in range(20):
+#     cba = swapMutation(abc, 0.1)
+#     print(cba)

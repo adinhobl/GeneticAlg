@@ -3,6 +3,8 @@ import random
 import pandas as pd
 from typing import List, Dict, Tuple
 
+# From: https://towardsdatascience.com/evolution-of-a-salesman-a-complete-genetic-algorithm-tutorial-for-python-6fe5d2b3ca35
+
 
 class City:
     def __init__(self, x: float, y: float) -> None:
@@ -150,3 +152,34 @@ def breedPopulation(mating_pool: List[List['City']], numElites: int=0):
     #     print(i)
     # print()
     return children
+
+
+def swapMutation(individual: List['City'], mutationRate=0):
+    for swapped in range(len(individual)):
+        if random.random() < mutationRate:
+            swapWith = int(random.random() * len(individual))
+
+            individual[swapped], individual[swapWith] = \
+                individual[swapWith], individual[swapped]
+
+    return individual
+
+
+def mutatePopulation():
+    pass
+
+
+def nextGeneration():
+    pass
+
+
+def geneticAlgorithm():
+    pass
+
+
+def geneticAlgorithmPlot():
+    pass
+
+
+def visPlot():
+    pass  # generate Matplotlib animation https://towardsdatascience.com/simple-method-of-creating-animated-graphs-127c11f58cc5

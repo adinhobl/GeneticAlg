@@ -1,7 +1,7 @@
 from GA import *
 
 
-# Test for City class
+###Test for City class###
 
 # Houston = City(1, 2.5)
 # Boston = City(20.2, 12)
@@ -9,7 +9,7 @@ from GA import *
 # print(type(Houston))
 # print(Houston.distance(Boston))
 
-# Generic list of cities
+###Generic list of cities###
 
 # cityList = []
 # for i in range(8):
@@ -19,12 +19,12 @@ from GA import *
 # print(R1.distance)
 # print(cityList)
 
-# Test for initialPopulation
+###Test for initialPopulation###
 
-# abc = initialPopulation(5, 20)
-# print(abc,"\n")
+# abc = initialPopulation(1, 25)
+# print(abc, "\n")
 
-# Test for rankRoutes
+#Test for rankRoutes###
 
 # abc = initialPopulation(5, 20)
 # print(abc,"\n")
@@ -32,7 +32,7 @@ from GA import *
 # print(cba)
 # print("\n")
 
-# Test for selection
+###Test for selection###
 
 # abc = initialPopulation(5, 20)
 # print(abc,"\n")
@@ -43,7 +43,7 @@ from GA import *
 # print(j)
 # print("\n")
 
-# Test for matingPool
+###Test for matingPool###
 
 # abc = initialPopulation(6, 20)
 # print(abc, "\n")
@@ -56,7 +56,7 @@ from GA import *
 # print(pool)
 # print("\n")
 
-# Test for breed
+###Test for breed###
 
 # abc = initialPopulation(6, 10)
 # #print(abc, "\n")
@@ -70,7 +70,7 @@ from GA import *
 # breeded = breed(pool[0], pool[1])
 # print(breeded, '\n')
 
-# Test for breedPopulation
+###Test for breedPopulation###
 
 # abc = initialPopulation(6, 10)
 # #print(abc, "\n")
@@ -86,10 +86,57 @@ from GA import *
 #     print(individual, ' ')
 # # note: something feels a little inbred
 
-# Test for swapMutation
+###Test for swapMutation###
 
 # abc = initialPopulation(1, 2)[0]
 # print(abc, "\n")
 # for i in range(20):
 #     cba = swapMutation(abc, 0.1)
 #     print(cba)
+
+###Test for mutatePopulation###
+
+# abc = initialPopulation(2, 5)
+# print(abc, "\n")
+# for i in range(3):
+#     cba = mutatePopulation(abc, 0.1)
+#     print(cba)
+
+###Test for nextGeneration###
+# Note: it's hard to tell if this works with only this test
+
+# abc = initialPopulation(3, 5)
+# print(abc, "\n")
+# for i in range(5):
+#     abc = nextGeneration(abc, 1, 0.1)
+#     print(abc)
+
+###Test for geneticAlgorithm, random cityList###
+# 100 routes, 25 cities, 20 Elites, 500 generations, 1% mutation rate
+
+# geneticAlgorithm(100, 25, 20, 500, .01)
+
+###Test for geneticAlgorithm, custom cityListIn###
+# 100 routes, 25 cities, 20 Elites, 500 generations, 1% mutation rate
+
+# numCities: int = 25
+
+# # Comment out this section
+# cityList: List = []
+# for i in range(numCities):
+#     cityList.append(City(x=round(random.random()*200),
+#                          y=round(random.random()*200)))
+
+# Or comment out this section
+# cities = [(182, 19), (13, 170), (26, 9), (161, 39), (33, 103), (117, 85),
+#           (182, 158), (196, 22), (99, 159), (8, 23), (146, 33), (125, 185),
+#           (34, 100), (156, 67), (185, 184), (74, 57), (178, 169), (22, 199),
+#           (44, 47), (140, 191), (183, 25), (123, 54), (85, 59), (72, 30),
+#           (167, 151)]  # replace with different list for tests
+# cityList = [City(i[0], i[1]) for i in cities]
+
+# print(cityList)
+
+# geneticAlgorithm(100, numCities, 20, 1000, .01, cityList)
+
+###Test for geneticAlgorithmPlot###

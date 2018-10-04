@@ -1,6 +1,7 @@
 import numpy as np
 import random
 import pandas as pd
+import matplotlib.pyplot as plt
 from typing import List, Dict, Tuple
 
 # From: https://towardsdatascience.com/evolution-of-a-salesman-a-complete-genetic-algorithm-tutorial-for-python-6fe5d2b3ca35
@@ -56,13 +57,20 @@ class Route:
 
 
 # for generating random lists of cities
-def initialPopulation(popSize: int, numCities: int) -> List[List['City']]:
-    # creates a list of random cities with k entries
-    cityList = []
+def initialPopulation(popSize: int, numCities: int, cityListIn: List=None) -> List[List['City']]:
+    # creates a list of random cities with k entries or use cityListIn, if provided
+    # note that if you use cityListIn, you still must provide its numCities and popSize
+    cityList: List = []
+
+    if cityListIn != None:
+        for city in cityListIn:
+            cityList.append(city)
+    else:
+        for i in range(numCities):
+            cityList.append(City(x=round(random.random()*200),
+                                 y=round(random.random()*200)))
+
     population = []
-    for i in range(numCities):
-        cityList.append(City(x=round(random.random()*200),
-                             y=round(random.random()*200)))
     for i in range(popSize):
         population.append(random.sample(cityList, len(cityList)))
     return population
@@ -165,16 +173,38 @@ def swapMutation(individual: List['City'], mutationRate=0):
     return individual
 
 
-def mutatePopulation():
-    pass
+def mutatePopulation(children: List[List['City']], mutationRate=0):
+    mutatedPop: List = []
+
+    for individual in range(0, len(children)):
+        mutatedIndividual = swapMutation(children[individual], mutationRate)
+        mutatedPop.append(mutatedIndividual)
+
+    return mutatedPop
 
 
-def nextGeneration():
-    pass
+def nextGeneration(currentGen: List[List['City']], numElites: int, mutationRate: float=0):
+    popRanked = rankRoutes(currentGen)
+    selectionResults = selection(popRanked, numElites)
+    matingpool = matingPool(currentGen, selectionResults)
+    children = breedPopulation(matingpool, numElites)
+    nextGeneration = mutatePopulation(children, mutationRate)
+
+    return nextGeneration
 
 
-def geneticAlgorithm():
-    pass
+def geneticAlgorithm(popSize: int, numCities: int, numElites: int, numGens: int, mutationRate: float = 0.01, cityListIn: List=None):
+    pop = initialPopulation(popSize, numCities, cityListIn)
+    bestInitialRoute = Route(pop[rankRoutes(pop)[0][0]])
+    print("Initial Distance: " + str(bestInitialRoute.routeDistance()))
+
+    for i in range(0, numGens):
+        pop = nextGeneration(pop, numElites, mutationRate)
+
+    bestFinalRoute = Route(pop[rankRoutes(pop)[0][0]])
+    print("Final Distance: " + str(bestFinalRoute.routeDistance()))
+
+    return bestFinalRoute
 
 
 def geneticAlgorithmPlot():

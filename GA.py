@@ -2,7 +2,7 @@ import numpy as np
 import random
 import pandas as pd
 import matplotlib.pyplot as plt
-from typing import List, Dict, Tuple
+from typing import List, Dict, Tuple, Any
 
 # From: https://towardsdatascience.com/evolution-of-a-salesman-a-complete-genetic-algorithm-tutorial-for-python-6fe5d2b3ca35
 
@@ -54,6 +54,10 @@ class Route:
         if self.fitness == 0:
             self.fitness = 1 / self.routeDistance()
         return self.fitness
+
+    def __repr__(self) -> Any:
+        # Defines the printable representation of the City
+        return str(self.route)
 
 
 # for generating random lists of cities
@@ -190,7 +194,12 @@ def nextGeneration(currentGen: List[List['City']], numElites: int, mutationRate:
     children = breedPopulation(matingpool, numElites)
     nextGeneration = mutatePopulation(children, mutationRate)
 
-    return nextGeneration
+    # extracting the best route of this generation
+    bestCurrentGenRoute = currentGen[popRanked[0][0]]
+    bestCurrentGenFitness = Route(bestCurrentGenRoute).routeFitness()
+    bestCurrentGenDistance = Route(bestCurrentGenRoute).routeDistance()
+
+    return nextGeneration, bestCurrentGenRoute, bestCurrentGenFitness, bestCurrentGenDistance
 
 
 def geneticAlgorithm(popSize: int, numCities: int, numElites: int, numGens: int, mutationRate: float = 0.01, cityListIn: List=None):
@@ -198,18 +207,27 @@ def geneticAlgorithm(popSize: int, numCities: int, numElites: int, numGens: int,
     bestInitialRoute = Route(pop[rankRoutes(pop)[0][0]])
     print("Initial Distance: " + str(bestInitialRoute.routeDistance()))
 
+    bestRouteByGen: List = []
+    bestFitnessByGen: List = []
+    bestDistanceByGen: List = []
+
     for i in range(0, numGens):
-        pop = nextGeneration(pop, numElites, mutationRate)
+        pop, bestCurrentGenRoute, bestCurrentGenFitness, bestCurrentGenDistance = \
+            nextGeneration(pop, numElites, mutationRate)
+
+        bestRouteByGen.append(bestCurrentGenRoute)
+        bestFitnessByGen.append(bestCurrentGenFitness)
+        bestDistanceByGen.append(bestCurrentGenDistance)
 
     bestFinalRoute = Route(pop[rankRoutes(pop)[0][0]])
     print("Final Distance: " + str(bestFinalRoute.routeDistance()))
 
-    return bestFinalRoute
+    return bestFinalRoute, bestRouteByGen, bestFitnessByGen, bestDistanceByGen
 
 
-def geneticAlgorithmPlot():
+def distancePlot():
     pass
 
 
-def visPlot():
+def evolutionPlot():
     pass  # generate Matplotlib animation https://towardsdatascience.com/simple-method-of-creating-animated-graphs-127c11f58cc5

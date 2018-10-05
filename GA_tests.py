@@ -119,7 +119,7 @@ from GA import *
 ###Test for geneticAlgorithm, custom cityListIn###
 # 100 routes, 25 cities, 20 Elites, 500 generations, 1% mutation rate
 
-# numCities: int = 25
+numCities: int = 25
 
 # # Comment out this section
 # cityList: List = []
@@ -128,15 +128,18 @@ from GA import *
 #                          y=round(random.random()*200)))
 
 # Or comment out this section
-# cities = [(182, 19), (13, 170), (26, 9), (161, 39), (33, 103), (117, 85),
-#           (182, 158), (196, 22), (99, 159), (8, 23), (146, 33), (125, 185),
-#           (34, 100), (156, 67), (185, 184), (74, 57), (178, 169), (22, 199),
-#           (44, 47), (140, 191), (183, 25), (123, 54), (85, 59), (72, 30),
-#           (167, 151)]  # replace with different list for tests
-# cityList = [City(i[0], i[1]) for i in cities]
+cities = [(182, 19), (13, 170), (26, 9), (161, 39), (33, 103), (117, 85),
+          (182, 158), (196, 22), (99, 159), (8, 23), (146, 33), (125, 185),
+          (34, 100), (156, 67), (185, 184), (74, 57), (178, 169), (22, 199),
+          (44, 47), (140, 191), (183, 25), (123, 54), (85, 59), (72, 30),
+          (167, 151)]  # replace with different list for tests
+cityList = [City(i[0], i[1]) for i in cities]
 
 # print(cityList)
 
-# geneticAlgorithm(100, numCities, 20, 1000, .01, cityList)
+bfr, brbg, bfbg, bdbg = geneticAlgorithm(
+    100, numCities, 20, 1000, .01, cityList)
+print(bfr, "\n\n", brbg[0:5], "\n\n", bfbg[0:5], "\n\n", bdbg[0:5])
 
-###Test for geneticAlgorithmPlot###
+
+###Test for distancePlot###

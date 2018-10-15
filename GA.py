@@ -2,6 +2,7 @@ import numpy as np
 import random
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 from typing import List, Dict, Tuple, Any
 
 # From: https://towardsdatascience.com/evolution-of-a-salesman-a-complete-genetic-algorithm-tutorial-for-python-6fe5d2b3ca35
@@ -19,6 +20,9 @@ class City:
         yDist = abs(self.y - city.y)
         distance = np.sqrt(xDist ** 2 + yDist ** 2)
         return distance
+
+    def to_tupl(self) -> Tuple:
+        return (self.x, self.y)
 
     def __repr__(self) -> str:
         # Defines the printable representation of the City
@@ -54,6 +58,13 @@ class Route:
         if self.fitness == 0:
             self.fitness = 1 / self.routeDistance()
         return self.fitness
+
+    def coordinates(self) -> Tuple[List[float], List[float]]:
+        x_list, y_list = [], []
+        for city in self.route:
+            x_list.append(city.to_tupl()[0])
+            y_list.append(city.to_tupl()[1])
+        return x_list, y_list
 
     def __repr__(self) -> Any:
         # Defines the printable representation of the City
@@ -196,6 +207,7 @@ def nextGeneration(currentGen: List[List['City']], numElites: int, mutationRate:
 
     # extracting the best route of this generation
     bestCurrentGenRoute = currentGen[popRanked[0][0]]
+    # bestCurrentGenRoute = matingpool[-numElites] #alternate method of ranking. Still unsure which is better
     bestCurrentGenFitness = Route(bestCurrentGenRoute).routeFitness()
     bestCurrentGenDistance = Route(bestCurrentGenRoute).routeDistance()
 
@@ -222,12 +234,63 @@ def geneticAlgorithm(popSize: int, numCities: int, numElites: int, numGens: int,
     bestFinalRoute = Route(pop[rankRoutes(pop)[0][0]])
     print("Final Distance: " + str(bestFinalRoute.routeDistance()))
 
-    return bestFinalRoute, bestRouteByGen, bestFitnessByGen, bestDistanceByGen
+    params = [popSize, numCities, numElites, numGens, mutationRate, cityListIn]
+
+    return bestFinalRoute, bestRouteByGen, bestFitnessByGen, bestDistanceByGen, params
 
 
-def distancePlot():
-    pass
+def distancePlot(bestDistanceByGen: List[int], params: List):
+    plt.plot(bestDistanceByGen)
+    plt.ylabel('Distance')
+    plt.xlabel('Generation')
+    s = "popSize: " + str(params[0]) + "\nnumCities: " + str(params[1]) + \
+        "\nnumGens: " + str(params[3]) + "\nmutationRate: " + str(params[4])
+    plt.text(330, 2110, s)
+    plt.text(0, bestDistanceByGen[0], bestDistanceByGen[0].round(1))
+    plt.text(len(bestDistanceByGen),
+             bestDistanceByGen[-1], bestDistanceByGen[-1].round(1))
+    plt.show()
 
 
-def evolutionPlot():
-    pass  # generate Matplotlib animation https://towardsdatascience.com/simple-method-of-creating-animated-graphs-127c11f58cc5
+def evolutionPlot(bestRouteByGen, cityListIn):
+
+    fig, ax = plt.subplots()
+    xdata = []
+    ydata = []
+    line, = plt.plot([], [], 'C3', animated=True)
+    gen_text, = plt.text(150, 150, '')
+
+    for i in range(len(bestRouteByGen)):
+        x, y = Route(bestRouteByGen[i]).coordinates()
+        xdata.append(x)
+        ydata.append(y)
+
+    def init():
+        x = [i[0] for i in cityListIn]
+        y = [i[1] for i in cityListIn]
+        ax.scatter(x, y, s=60)
+
+        return line,
+
+    def animate(i):
+        numGens = len(bestRouteByGen)
+        line.set_data(xdata[i % numGens], ydata[i % numGens])
+        gen_text.set_text("Generation: " + str(i))
+        return line, gen_text,
+
+    # def animate(i):
+    #     # for i in bestRouteByGen:
+    #     #     x, y = Route(i).coordinates()
+    #
+    #     x, y = Route(bestRouteByGen[i]).coordinates()
+    #     # xdata.append(x)
+    #     # ydata.append(y)
+    #     # line.set_data(xdata, ydata)
+    #     line.set_data(x, y)
+    #     return line,
+
+    ani = animation.FuncAnimation(
+        fig, animate, init_func=init, blit=True, repeat_delay=2000, interval=15)
+    #
+    # # ani.save("GA4TSM.mp4")
+    plt.show()

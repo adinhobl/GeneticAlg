@@ -50,9 +50,9 @@ from GA import *
 # cba = rankRoutes(abc)
 # print(cba)
 # numElites = 2
-# j = selection(cba,numElites)
+# j = selection(cba, numElites)
 # print(j)
-# pool = matingPool(abc, j)
+# # pool = matingPool(abc, j)
 # print(pool)
 # print("\n")
 
@@ -135,11 +135,12 @@ cities = [(182, 19), (13, 170), (26, 9), (161, 39), (33, 103), (117, 85),
           (167, 151)]  # replace with different list for tests
 cityList = [City(i[0], i[1]) for i in cities]
 
-# print(cityList)
-
-bfr, brbg, bfbg, bdbg = geneticAlgorithm(
-    100, numCities, 20, 1000, .01, cityList)
-print(bfr, "\n\n", brbg[0:5], "\n\n", bfbg[0:5], "\n\n", bdbg[0:5])
-
+bfr, brbg, bfbg, bdbg, params = geneticAlgorithm(
+    100, numCities, 20, 500, 0.01, cityList)
+# print(bfr, "\n\n", brbg[0:5], "\n\n", bfbg[0:5], "\n\n", bdbg[0:5])
 
 ###Test for distancePlot###
+# distancePlot(bdbg, params)
+
+###Test for evolutionPlot###
+evolutionPlot(brbg, cities)

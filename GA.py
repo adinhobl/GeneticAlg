@@ -171,9 +171,6 @@ def breedPopulation(mating_pool: List[List['City']], numElites: int=0):
         child = breed(pool[i], pool[len(mating_pool)-i-1])
         children.append(child)
 
-    # for i in mating_pool:
-    #     print(i)
-    # print()
     return children
 
 
@@ -280,19 +277,8 @@ def evolutionPlot(bestRouteByGen, cityListIn):
         gen_text.set_text("Generation:" + str(i % numGens))
         return line,  gen_text
 
-    # def animate(i):
-    #     # for i in bestRouteByGen:
-    #     #     x, y = Route(i).coordinates()
-    #
-    #     x, y = Route(bestRouteByGen[i]).coordinates()
-    #     # xdata.append(x)
-    #     # ydata.append(y)
-    #     # line.set_data(xdata, ydata)
-    #     line.set_data(x, y)
-    #     return line,
-
     ani = animation.FuncAnimation(
         fig, animate, init_func=init, blit=True, repeat_delay=2000, interval=15)
-    #
-    # # ani.save("GA4TSM.mp4")
+
+    # ani.save("GA4TSM.mp4")
     plt.show()

@@ -136,11 +136,11 @@ cities = [(182, 19), (13, 170), (26, 9), (161, 39), (33, 103), (117, 85),
 cityList = [City(i[0], i[1]) for i in cities]
 
 bfr, brbg, bfbg, bdbg, params = geneticAlgorithm(
-    100, numCities, 20, 500, 0.01, cityList)
+    100, numCities, 10, 10000, 0.005, cityList)
 # print(bfr, "\n\n", brbg[0:5], "\n\n", bfbg[0:5], "\n\n", bdbg[0:5])
 
 ###Test for distancePlot###
-# distancePlot(bdbg, params)
+distancePlot(bdbg, params)
 
 ###Test for evolutionPlot###
-evolutionPlot(brbg, cities)
+evolutionPlot(brbg, bdbg, cities)

@@ -174,7 +174,7 @@ def breedPopulation(mating_pool: List[List['City']], numElites: int=0):
     return children
 
 
-def swapMutation(individual: List['City'], mutationRate=0):
+def swapMutation(individual: List['City'], mutationRate):
     for swapped in range(len(individual)):
         if random.random() < mutationRate:
             swapWith = int(random.random() * len(individual))
@@ -249,13 +249,13 @@ def distancePlot(bestDistanceByGen: List[int], params: List):
     plt.show()
 
 
-def evolutionPlot(bestRouteByGen, cityListIn):
+def evolutionPlot(bestRouteByGen, bestDistanceByGen, cityListIn):
 
     fig, ax = plt.subplots()
     xdata = []
     ydata = []
     line, = plt.plot([], [], 'C3', animated=True)
-    gen_text = ax.text(155, 195, '')
+    gen_text = ax.text(150, 185, '')
 
     for i in range(len(bestRouteByGen)):
         x, y = Route(bestRouteByGen[i]).coordinates()
@@ -274,11 +274,12 @@ def evolutionPlot(bestRouteByGen, cityListIn):
         numGens = len(bestRouteByGen)
         line.set_data(xdata[i % numGens], ydata[i % numGens])
 
-        gen_text.set_text("Generation:" + str(i % numGens))
+        gen_text.set_text("Generation:" + str(i % numGens) +
+                          "\nDistance: " + str(round(bestDistanceByGen[i % numGens], 2)))
         return line,  gen_text
 
     ani = animation.FuncAnimation(
-        fig, animate, init_func=init, blit=True, repeat_delay=2000, interval=15)
+        fig, animate, init_func=init, blit=True, repeat_delay=2000, interval=50, save_count=500)
 
-    # ani.save("GA4TSM.mp4")
+    # ani.save("GA4TSM.gif")
     plt.show()

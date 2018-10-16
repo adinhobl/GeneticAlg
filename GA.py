@@ -258,7 +258,7 @@ def evolutionPlot(bestRouteByGen, cityListIn):
     xdata = []
     ydata = []
     line, = plt.plot([], [], 'C3', animated=True)
-    gen_text, = plt.text(150, 150, '')
+    gen_text = ax.text(155, 195, '')
 
     for i in range(len(bestRouteByGen)):
         x, y = Route(bestRouteByGen[i]).coordinates()
@@ -269,14 +269,16 @@ def evolutionPlot(bestRouteByGen, cityListIn):
         x = [i[0] for i in cityListIn]
         y = [i[1] for i in cityListIn]
         ax.scatter(x, y, s=60)
+        gen_text.set_text('')
 
         return line,
 
     def animate(i):
         numGens = len(bestRouteByGen)
         line.set_data(xdata[i % numGens], ydata[i % numGens])
-        gen_text.set_text("Generation: " + str(i))
-        return line, gen_text,
+
+        gen_text.set_text("Generation:" + str(i % numGens))
+        return line,  gen_text
 
     # def animate(i):
     #     # for i in bestRouteByGen:

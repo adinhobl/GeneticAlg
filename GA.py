@@ -92,6 +92,8 @@ def initialPopulation(popSize: int, numCities: int, cityListIn: List = None) -> 
 
     population = []
     for i in range(popSize):
+        if cityListIn != None:
+            random.seed(11)
         population.append(random.sample(cityList, len(cityList)))
     return population
 

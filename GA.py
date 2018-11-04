@@ -56,7 +56,7 @@ class Route:
     def routeFitness(self) -> float:
         # calculates the fitness of a route from its distance
         if self.fitness == 0:
-            self.fitness = 1 / self.routeDistance()
+            self.fitness = calcFitness(self.routeDistance())
         return self.fitness
 
     def coordinates(self) -> Tuple[List[float], List[float]]:
@@ -71,8 +71,13 @@ class Route:
         return str(self.route)
 
 
+def calcFitness(routeDistance: float):
+    return 1 / routeDistance
+
 # for generating random lists of cities
-def initialPopulation(popSize: int, numCities: int, cityListIn: List=None) -> List[List['City']]:
+
+
+def initialPopulation(popSize: int, numCities: int, cityListIn: List = None) -> List[List['City']]:
     # creates a list of random cities with k entries or use cityListIn, if provided
     # note that if you use cityListIn, you still must provide its numCities and popSize
     cityList: List = []
@@ -156,7 +161,7 @@ def breed(parent1: List['City'], parent2: List['City']) -> List['City']:
     return child
 
 
-def breedPopulation(mating_pool: List[List['City']], numElites: int=0):
+def breedPopulation(mating_pool: List[List['City']], numElites: int = 0):
     children: List = []  # final list of children
     numNonElite = len(mating_pool) - numElites
     pool = random.sample(mating_pool, len(mating_pool)
@@ -195,23 +200,23 @@ def mutatePopulation(children: List[List['City']], mutationRate=0):
     return mutatedPop
 
 
-def nextGeneration(currentGen: List[List['City']], numElites: int, mutationRate: float=0):
+def nextGeneration(currentGen: List[List['City']], numElites: int, mutationRate: float = 0):
     popRanked = rankRoutes(currentGen)
+
+    # extracting the best route of this generation
+    bestCurrentGenRoute = Route(currentGen[popRanked[0][0]])
+    bestCurrentGenFitness = bestCurrentGenRoute.routeFitness()
+    bestCurrentGenDistance = bestCurrentGenRoute.routeDistance()
+
     selectionResults = selection(popRanked, numElites)
     matingpool = matingPool(currentGen, selectionResults)
     children = breedPopulation(matingpool, numElites)
     nextGeneration = mutatePopulation(children, mutationRate)
 
-    # extracting the best route of this generation
-    bestCurrentGenRoute = currentGen[popRanked[0][0]]
-    # bestCurrentGenRoute = matingpool[-numElites] #alternate method of ranking. Still unsure which is better
-    bestCurrentGenFitness = Route(bestCurrentGenRoute).routeFitness()
-    bestCurrentGenDistance = Route(bestCurrentGenRoute).routeDistance()
-
     return nextGeneration, bestCurrentGenRoute, bestCurrentGenFitness, bestCurrentGenDistance
 
 
-def geneticAlgorithm(popSize: int, numCities: int, numElites: int, numGens: int, mutationRate: float = 0.01, cityListIn: List=None):
+def geneticAlgorithm(popSize: int, numCities: int, numElites: int, numGens: int, mutationRate: float = 0.01, cityListIn: List = None):
     pop = initialPopulation(popSize, numCities, cityListIn)
     bestInitialRoute = Route(pop[rankRoutes(pop)[0][0]])
     print("Initial Distance: " + str(bestInitialRoute.routeDistance()))
@@ -242,7 +247,7 @@ def distancePlot(bestDistanceByGen: List[int], params: List):
     plt.xlabel('Generation')
     s = "popSize: " + str(params[0]) + "\nnumCities: " + str(params[1]) + \
         "\nnumGens: " + str(params[3]) + "\nmutationRate: " + str(params[4])
-    plt.text(330, 2110, s)
+    plt.text(330, 2010, s)
     plt.text(0, bestDistanceByGen[0], bestDistanceByGen[0].round(1))
     plt.text(len(bestDistanceByGen),
              bestDistanceByGen[-1], bestDistanceByGen[-1].round(1))
@@ -258,7 +263,7 @@ def evolutionPlot(bestRouteByGen, bestDistanceByGen, cityListIn):
     gen_text = ax.text(150, 185, '')
 
     for i in range(len(bestRouteByGen)):
-        x, y = Route(bestRouteByGen[i]).coordinates()
+        x, y = bestRouteByGen[i].coordinates()
         xdata.append(x)
         ydata.append(y)
 

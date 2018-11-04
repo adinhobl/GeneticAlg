@@ -9,6 +9,7 @@ from GA import *
 # print(type(Houston))
 # print(Houston.distance(Boston))
 
+
 ###Generic list of cities###
 
 # cityList = []
@@ -19,10 +20,12 @@ from GA import *
 # print(R1.distance)
 # print(cityList)
 
+
 ###Test for initialPopulation###
 
 # abc = initialPopulation(1, 25)
 # print(abc, "\n")
+
 
 #Test for rankRoutes###
 
@@ -31,6 +34,7 @@ from GA import *
 # cba = rankRoutes(abc)
 # print(cba)
 # print("\n")
+
 
 ###Test for selection###
 
@@ -42,6 +46,7 @@ from GA import *
 # j = selection(cba,numElites)
 # print(j)
 # print("\n")
+
 
 ###Test for matingPool###
 
@@ -55,6 +60,7 @@ from GA import *
 # # pool = matingPool(abc, j)
 # print(pool)
 # print("\n")
+
 
 ###Test for breed###
 
@@ -70,6 +76,7 @@ from GA import *
 # breeded = breed(pool[0], pool[1])
 # print(breeded, '\n')
 
+
 ###Test for breedPopulation###
 
 # abc = initialPopulation(6, 10)
@@ -84,7 +91,7 @@ from GA import *
 # next_gen = breedPopulation(pool, numElites)
 # for individual in next_gen:
 #     print(individual, ' ')
-# # note: something feels a little inbred
+
 
 ###Test for swapMutation###
 
@@ -94,6 +101,7 @@ from GA import *
 #     cba = swapMutation(abc, 0.1)
 #     print(cba)
 
+
 ###Test for mutatePopulation###
 
 # abc = initialPopulation(2, 5)
@@ -101,6 +109,7 @@ from GA import *
 # for i in range(3):
 #     cba = mutatePopulation(abc, 0.1)
 #     print(cba)
+
 
 ###Test for nextGeneration###
 # Note: it's hard to tell if this works with only this test
@@ -110,6 +119,7 @@ from GA import *
 # for i in range(5):
 #     abc = nextGeneration(abc, 1, 0.1)
 #     print(abc)
+
 
 ###Test for geneticAlgorithm, random cityList###
 # 100 routes, 25 cities, 20 Elites, 500 generations, 1% mutation rate
@@ -136,11 +146,13 @@ cities = [(182, 19), (13, 170), (26, 9), (161, 39), (33, 103), (117, 85),
 cityList = [City(i[0], i[1]) for i in cities]
 
 bfr, brbg, bfbg, bdbg, params = geneticAlgorithm(
-    100, numCities, 10, 10000, 0.005, cityList)
+    100, numCities, 20, 500, 0.01, cityList)
 # print(bfr, "\n\n", brbg[0:5], "\n\n", bfbg[0:5], "\n\n", bdbg[0:5])
+
 
 ###Test for distancePlot###
 distancePlot(bdbg, params)
 
+
 ###Test for evolutionPlot###
-evolutionPlot(brbg, bdbg, cities)
+# evolutionPlot(brbg, bdbg, cities)

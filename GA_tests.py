@@ -137,7 +137,7 @@ numCities: int = 25
 #     cityList.append(City(x=round(random.random()*200),
 #                          y=round(random.random()*200)))
 
-# Or comment out this section
+# # Or comment out this section
 cities = [(182, 19), (13, 170), (26, 9), (161, 39), (33, 103), (117, 85),
           (182, 158), (196, 22), (99, 159), (8, 23), (146, 33), (125, 185),
           (34, 100), (156, 67), (185, 184), (74, 57), (178, 169), (22, 199),
@@ -145,9 +145,9 @@ cities = [(182, 19), (13, 170), (26, 9), (161, 39), (33, 103), (117, 85),
           (167, 151)]  # replace with different list for tests
 cityList = [City(i[0], i[1]) for i in cities]
 
-
-bfr, brbg, bfbg, bdbg, params = geneticAlgorithm(
-    100, numCities, 20, 1000, 0.005, cityList)
+for i in range(1):  # change this parameter for more trials, watch out for memory issues
+    bfr, brbg, bfbg, bdbg, params = geneticAlgorithm(
+        100, numCities, 50, 20000, 0.01, cityList)
 # print(bfr, "\n\n", brbg[0:5], "\n\n", bfbg[0:5], "\n\n", bdbg[0:5])
 
 
@@ -156,4 +156,4 @@ distancePlot(bdbg, params)
 
 
 ###Test for evolutionPlot###
-evolutionPlot(brbg, bdbg, cities)
+# evolutionPlot(brbg, bdbg, cities)

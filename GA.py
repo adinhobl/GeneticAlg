@@ -235,6 +235,11 @@ def geneticAlgorithm(popSize: int, numCities: int, numElites: int, numGens: int,
         bestFitnessByGen.append(bestCurrentGenFitness)
         bestDistanceByGen.append(bestCurrentGenDistance)
 
+        # used for testing convergence
+        # if bestCurrentGenDistance < 852:
+        #     print(i)
+        #     break
+
     bestFinalRoute = Route(pop[rankRoutes(pop)[0][0]])
     print("Final Distance: " + str(bestFinalRoute.routeDistance()))
 

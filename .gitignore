@@ -1,1 +1,5 @@
 .mypy_cache/
+Data.ods
+picturesFromGA
+*/**/__pycache__
+*/**/*.pyc

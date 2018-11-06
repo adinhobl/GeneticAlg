@@ -147,7 +147,7 @@ cityList = [City(i[0], i[1]) for i in cities]
 
 for i in range(1):  # change this parameter for more trials, watch out for memory issues
     bfr, brbg, bfbg, bdbg, params = geneticAlgorithm(
-        100, numCities, 50, 20000, 0.01, cityList)
+        1000, numCities, 500, 20000, 0.01, cityList)
 # print(bfr, "\n\n", brbg[0:5], "\n\n", bfbg[0:5], "\n\n", bdbg[0:5])
 
 

@@ -1,5 +1,5 @@
 # GeneticAlg
-This library is my personal introduction to evolutionary algorithms and typing in Python. The problem and most of the code are implemented [based on this tutorial by Eric Stoltz.](https://towardsdatascience.com/evolution-of-a-salesman-a-complete-genetic-algorithm-tutorial-for-python-6fe5d2b3ca35)
+This library is my personal introduction to evolutionary algorithms and typing in Python. The problem and most of the code are extended [from this tutorial by Eric Stoltz.](https://towardsdatascience.com/evolution-of-a-salesman-a-complete-genetic-algorithm-tutorial-for-python-6fe5d2b3ca35)
 
 Note that is was done in Python 3.6, so the class annotation will not use `from __future__ import annotations`.
 

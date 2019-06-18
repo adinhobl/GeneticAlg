@@ -1,6 +1,5 @@
 from GA import *
 
-
 ###Test for City class###
 
 # Houston = City(1, 2.5)
@@ -14,7 +13,8 @@ from GA import *
 
 # cityList = []
 # for i in range(8):
-#     cityList.append(City(x=round(random.random()*200), y=round(random.random()*200)))
+#     cityList.append(City(x=round(random.random()*200), 
+#                          y=round(random.random()*200)))
 # R1 = Route(cityList)
 # print(R1.routeFitness())
 # print(R1.distance)
@@ -129,7 +129,7 @@ from GA import *
 ###Test for geneticAlgorithm, custom cityListIn###
 # 100 routes, 25 cities, 20 Elites, 500 generations, 1% mutation rate
 
-numCities: int = 25
+numCities = 25
 
 # # Comment out this section
 # cityList: List = []
@@ -145,9 +145,9 @@ cities = [(182, 19), (13, 170), (26, 9), (161, 39), (33, 103), (117, 85),
           (167, 151)]  # replace with different list for tests
 cityList = [City(i[0], i[1]) for i in cities]
 
-for i in range(1):  # change this parameter for more trials, watch out for memory issues
+for i in range(1):  # change this parameter for more trials, memory issues?
     bfr, brbg, bfbg, bdbg, params = geneticAlgorithm(
-        1000, numCities, 500, 20000, 0.01, cityList)
+        1000, numCities, 500, 250, 0.01, cityList)
 # print(bfr, "\n\n", brbg[0:5], "\n\n", bfbg[0:5], "\n\n", bdbg[0:5])
 
 
@@ -156,4 +156,4 @@ distancePlot(bdbg, params)
 
 
 ###Test for evolutionPlot###
-# evolutionPlot(brbg, bdbg, cities)
+evolutionPlot(brbg, bdbg, cities)

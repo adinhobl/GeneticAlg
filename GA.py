@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from typing import List, Dict, Tuple, Any
 
-# From: https://towardsdatascience.com/evolution-of-a-salesman-a-complete-genetic-algorithm-tutorial-for-python-6fe5d2b3ca35
+# Inspired by: http://alturl.com/f6mot
 
 
 class City:
@@ -39,7 +39,7 @@ class Route:
 
     def routeDistance(self) -> float:
         # calculates the total distance of a route
-        if self.distance == 0:  # prevents from recalculating fitness for a route
+        if self.distance == 0:  # prevents recalculating fitness for a route
             pathDistance = 0.0  # temporary calculation variable
             for i in range(self.numStops):
                 fromCity = self.route[i]
@@ -82,17 +82,17 @@ def initialPopulation(popSize: int, numCities: int, cityListIn: List = None) -> 
     # note that if you use cityListIn, you still must provide its numCities and popSize
     cityList: List = []
 
-    if cityListIn != None:
+    if cityListIn is not None:
         for city in cityListIn:
             cityList.append(city)
     else:
-        for i in range(numCities):
+        for _ in range(numCities):
             cityList.append(City(x=round(random.random()*200),
                                  y=round(random.random()*200)))
 
     population = []
-    for i in range(popSize):
-        if cityListIn != None:
+    for _ in range(popSize):
+        if cityListIn is not None:
             random.seed(11)
         population.append(random.sample(cityList, len(cityList)))
     return population
@@ -156,7 +156,7 @@ def breed(parent1: List['City'], parent2: List['City']) -> List['City']:
     for i in range(0, len(child)):
         for j in parent2:
             if j not in child:
-                if child[i] == None:
+                if child[i] is None:
                     child[i] = j
 
     # print("Child after p2: ", child, "\n")
@@ -227,7 +227,7 @@ def geneticAlgorithm(popSize: int, numCities: int, numElites: int, numGens: int,
     bestFitnessByGen: List = []
     bestDistanceByGen: List = []
 
-    for i in range(0, numGens):
+    for _ in range(0, numGens):
         pop, bestCurrentGenRoute, bestCurrentGenFitness, bestCurrentGenDistance = \
             nextGeneration(pop, numElites, mutationRate)
 
@@ -237,7 +237,7 @@ def geneticAlgorithm(popSize: int, numCities: int, numElites: int, numGens: int,
 
         # used for testing convergence
         # if bestCurrentGenDistance < 852:
-        #     print(i)
+        #     print(_)
         #     break
 
     bestFinalRoute = Route(pop[rankRoutes(pop)[0][0]])
@@ -293,5 +293,5 @@ def evolutionPlot(bestRouteByGen, bestDistanceByGen, cityListIn):
     ani = animation.FuncAnimation(
         fig, animate, init_func=init, blit=True, repeat_delay=2000, interval=50, save_count=500)
 
-    # ani.save("GA4TSM.gif")
+    ani.save("GA4TSM.gif")
     plt.show()

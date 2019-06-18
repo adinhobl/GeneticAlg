@@ -6,6 +6,8 @@ Note that is was done in Python 3.6, so the class annotation will not use `from 
 ## Tests & Examples
 Tests for this repository are in the file GA_tests.py. Uncomment the tests to see the output of the code at various points in the algorithm.
 
+![](generations.jpeg)
+![](GA4TSM.gif)
+
 ## Future Things to Try
 - Try different fitness functions other than inverse to see if algorithm converges faster/better, e.g. squaring, different integer
-- Implement visualization to show the progress of the algorithm
